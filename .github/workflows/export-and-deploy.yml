@@ -32,10 +32,10 @@ jobs:
     - name: Export solution from DEV
       uses: microsoft/powerplatform-actions/export-solution@v1.0.0
       with:
-        environment-url: ${{ secrets.DEV_URL }}
-        app-id: ${{ secrets.CLIENT_ID }}
-        client-secret: ${{ secrets.CLIENT_SECRET }}
-        tenant-id: ${{ secrets.TENANT_ID }}
+        environment-url: '${{ secrets.DEV_URL }}'
+        app-id: '${{ secrets.CLIENT_ID }}'
+        client-secret: '${{ secrets.CLIENT_SECRET }}'
+        tenant-id: '${{ secrets.TENANT_ID }}'
         solution-name: ${{ inputs.solution_name }}
         solution-output-file: 'solutions/${{ inputs.solution_name }}.zip'
         managed: false
@@ -78,10 +78,10 @@ jobs:
     - name: Import to TARGET environment
       uses: microsoft/powerplatform-actions/import-solution@v1.0.0
       with:
-        environment-url: ${{ secrets.TARGET_URL }}
-        app-id: ${{ secrets.CLIENT_ID }}
-        client-secret: ${{ secrets.CLIENT_SECRET }}
-        tenant-id: ${{ secrets.TENANT_ID }}
+        environment-url: '${{ secrets.TARGET_URL }}'
+        app-id: '${{ secrets.CLIENT_ID }}'
+        client-secret: '${{ secrets.CLIENT_SECRET }}'
+        tenant-id: '${{ secrets.TENANT_ID }}'
         solution-file: 'solutions/${{ inputs.solution_name }}_managed.zip'
         force-overwrite: true
         publish-changes: true
