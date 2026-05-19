@@ -339,8 +339,6 @@ jobs:
             $initialContent = @"
 # Changelog
 
-All notable changes to this project will be documented in this file.
-
 "@
 
             Set-Content -Path $changelogPath -Value $initialContent
