@@ -13,9 +13,9 @@ name: Export and Deploy Solution with Versioning
         required: true
         type: choice
         options:
-          - patch
-          - minor
-          - major
+        - patch
+        - minor
+        - major
         default: patch
 
       release_notes:
@@ -31,149 +31,111 @@ jobs:
       new_version: ${{ steps.version.outputs.new_version }}
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
+    - name: Checkout code
+      uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
 
-      - name: Setup Power Platform CLI
-        uses: microsoft/powerplatform-actions/actions-install@v1.0.0
+    - name: Setup Power Platform CLI
+      uses: microsoft/powerplatform-actions/actions-install@v1.0.0
 
-      - name: Export solution from DEV
-        uses: microsoft/powerplatform-actions/export-solution@v1.0.0
-        with:
-          environment-url: "${{ secrets.DEV_URL }}"
-          app-id: "${{ secrets.CLIENT_ID }}"
-          client-secret: "${{ secrets.CLIENT_SECRET }}"
-          tenant-id: "${{ secrets.TENANT_ID }}"
-          solution-name: "${{ inputs.solution_name }}"
-          solution-output-file: "solutions/${{ inputs.solution_name }}.zip"
-          managed: false
+    - name: Export solution from DEV
+      uses: microsoft/powerplatform-actions/export-solution@v1.0.0
+      with:
+        environment-url: "${{ secrets.DEV_URL }}"
+        app-id: "${{ secrets.CLIENT_ID }}"
+        client-secret: "${{ secrets.CLIENT_SECRET }}"
+        tenant-id: "${{ secrets.TENANT_ID }}"
+        solution-name: "${{ inputs.solution_name }}"
+        solution-output-file: "solutions/${{ inputs.solution_name }}.zip"
+        managed: false
 
-      - name: Unpack solution
-        uses: microsoft/powerplatform-actions/unpack-solution@v1.0.0
-        with:
-          solution-file: "solutions/${{ inputs.solution_name }}.zip"
-          solution-folder: "solutions/${{ inputs.solution_name }}"
-          solution-type: "Unmanaged"
+    - name: Unpack solution
+      uses: microsoft/powerplatform-actions/unpack-solution@v1.0.0
+      with:
+        solution-file: "solutions/${{ inputs.solution_name }}.zip"
+        solution-folder: "solutions/${{ inputs.solution_name }}"
+        solution-type: "Unmanaged"
 
-      - name: Read current version
-        id: version
-        shell: pwsh
-        run: |
-          $solutionXml = "solutions/${{ inputs.solution_name }}/Other/Solution.xml"
+    - name: Read current version
+      id: version
+      shell: pwsh
+      run: |
+        $solutionXml = "solutions/${{ inputs.solution_name }}/Other/Solution.xml"
 
-          if (Test-Path $solutionXml) {
+        if (Test-Path $solutionXml) {
 
-            [xml]$xml = Get-Content $solutionXml
+          [xml]$xml = Get-Content $solutionXml
 
-            $currentVersion = $xml.ImportExportXml.SolutionManifest.Version
+          $currentVersion = $xml.ImportExportXml.SolutionManifest.Version
 
-            Write-Host "Current version: $currentVersion"
+          Write-Host "Current version: $currentVersion"
 
-            $parts = $currentVersion -split '\.'
+          $parts = $currentVersion -split '\.'
 
-            $major = [int]$parts[0]
-            $minor = [int]$parts[1]
-            $build = [int]$parts[2]
-            $revision = [int]$parts[3]
+          $major = [int]$parts[0]
+          $minor = [int]$parts[1]
+          $build = [int]$parts[2]
+          $revision = [int]$parts[3]
 
-            switch ("${{ inputs.version_bump }}") {
+          switch ("${{ inputs.version_bump }}") {
 
-              "major" {
-                $major++
-                $minor = 0
-                $build = 0
-                $revision = 0
-              }
-
-              "minor" {
-                $minor++
-                $build = 0
-                $revision = 0
-              }
-
-              "patch" {
-                $revision++
-              }
+            "major" {
+              $major++
+              $minor = 0
+              $build = 0
+              $revision = 0
             }
 
-            $newVersion = "$major.$minor.$build.$revision"
-
-            Write-Host "New version: $newVersion"
-
-            $xml.ImportExportXml.SolutionManifest.Version = $newVersion
-
-            $xml.Save($solutionXml)
-
-            "new_version=$newVersion" >> $env:GITHUB_OUTPUT
-            "old_version=$currentVersion" >> $env:GITHUB_OUTPUT
-
-          }
-          else {
-
-            Write-Host "Solution.xml not found!"
-
-            exit 1
-          }
-
-      - name: Update CHANGELOG.md
-        shell: pwsh
-        run: |
-          $changelogPath = "CHANGELOG.md"
-
-          $date = Get-Date -Format "yyyy-MM-dd"
-
-          $version = "${{ steps.version.outputs.new_version }}"
-
-          if (-not (Test-Path $changelogPath)) {
-
-            $initialContent = @"
-  # Changelog
-
-  All notable changes to this project will be documented in this file.
-  "@
-
-              Set-Content -Path $changelogPath -Value $initialContent
+            "minor" {
+              $minor++
+              $build = 0
+              $revision = 0
             }
 
-            $content = Get-Content $changelogPath -Raw
+            "patch" {
+              $revision++
+            }
+          }
 
-            $newEntry = @"
+          $newVersion = "$major.$minor.$build.$revision"
 
-  ## [$version] - $date - ${{ inputs.solution_name }}
+          Write-Host "New version: $newVersion"
 
-  ### Changed
-  - ${{ inputs.release_notes }}
+          $xml.ImportExportXml.SolutionManifest.Version = $newVersion
 
-  ### Version Info
-  - Previous version: ${{ steps.version.outputs.old_version }}
-  - Bump type: ${{ inputs.version_bump }}
+          $xml.Save($solutionXml)
 
-  ---
-  "@
+          "new_version=$newVersion" >> $env:GITHUB_OUTPUT
+          "old_version=$currentVersion" >> $env:GITHUB_OUTPUT
 
-          Add-Content -Path $changelogPath -Value $newEntry
+        }
+        else {
 
-      - name: Commit changes with version
-        shell: pwsh
-        run: |
-          git config user.name "GitHub Actions Bot"
+          Write-Host "Solution.xml not found!"
 
-          git config user.email "actions@github.com"
+          exit 1
+        }
 
-          git add .
+    - name: Commit changes with version
+      shell: pwsh
+      run: |
+        git config user.name "GitHub Actions Bot"
 
-          git commit -m "Release ${{ inputs.solution_name }} v${{ steps.version.outputs.new_version }}" || Write-Host "No changes to commit"
+        git config user.email "actions@github.com"
 
-          git push
+        git add .
 
-      - name: Create Git Tag
-        shell: pwsh
-        run: |
-          git tag -a "v${{ steps.version.outputs.new_version }}-${{ inputs.solution_name }}" -m "Release ${{ inputs.solution_name }} v${{ steps.version.outputs.new_version }}"
+        git commit -m "Release ${{ inputs.solution_name }} v${{ steps.version.outputs.new_version }}" || Write-Host "No changes to commit"
 
-          git push origin "v${{ steps.version.outputs.new_version }}-${{ inputs.solution_name }}"
+        git push
+
+    - name: Create Git Tag
+      shell: pwsh
+      run: |
+        git tag -a "v${{ steps.version.outputs.new_version }}-${{ inputs.solution_name }}" -m "Release ${{ inputs.solution_name }} v${{ steps.version.outputs.new_version }}"
+
+        git push origin "v${{ steps.version.outputs.new_version }}-${{ inputs.solution_name }}"
 
   deploy-to-target:
     runs-on: windows-latest
@@ -181,69 +143,58 @@ jobs:
     needs: export-and-version
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-        with:
-          ref: main
+    - name: Checkout code
+      uses: actions/checkout@v3
+      with:
+        ref: main
 
-      - name: Pull latest changes
-        shell: pwsh
-        run: |
-          git pull origin main
+    - name: Pull latest changes
+      shell: pwsh
+      run: |
+        git pull origin main
 
-      - name: Setup Power Platform CLI
-        uses: microsoft/powerplatform-actions/actions-install@v1.0.0
+    - name: Setup Power Platform CLI
+      uses: microsoft/powerplatform-actions/actions-install@v1.0.0
 
-      - name: Pack solution
-        uses: microsoft/powerplatform-actions/pack-solution@v1.0.0
-        with:
-          solution-folder: "solutions/${{ inputs.solution_name }}"
-          solution-file: "solutions/${{ inputs.solution_name }}_v${{ needs.export-and-version.outputs.new_version }}.zip"
-          solution-type: "Unmanaged"
+    - name: Pack solution
+      uses: microsoft/powerplatform-actions/pack-solution@v1.0.0
+      with:
+        solution-folder: "solutions/${{ inputs.solution_name }}"
+        solution-file: "solutions/${{ inputs.solution_name }}_v${{ needs.export-and-version.outputs.new_version }}.zip"
+        solution-type: "Unmanaged"
 
-      - name: Import to TARGET environment
-        uses: microsoft/powerplatform-actions/import-solution@v1.0.0
-        with:
-          environment-url: "${{ secrets.TARGET_URL }}"
-          app-id: "${{ secrets.CLIENT_ID }}"
-          client-secret: "${{ secrets.CLIENT_SECRET }}"
-          tenant-id: "${{ secrets.TENANT_ID }}"
-          solution-file: "solutions/${{ inputs.solution_name }}_v${{ needs.export-and-version.outputs.new_version }}.zip"
-          force-overwrite: true
-          publish-changes: true
+    - name: Import to TARGET environment
+      uses: microsoft/powerplatform-actions/import-solution@v1.0.0
+      with:
+        environment-url: "${{ secrets.TARGET_URL }}"
+        app-id: "${{ secrets.CLIENT_ID }}"
+        client-secret: "${{ secrets.CLIENT_SECRET }}"
+        tenant-id: "${{ secrets.TENANT_ID }}"
+        solution-file: "solutions/${{ inputs.solution_name }}_v${{ needs.export-and-version.outputs.new_version }}.zip"
+        force-overwrite: true
+        publish-changes: true
 
-      - name: Deployment Summary
-        shell: pwsh
-        run: |
-          echo "## Deployment Successful!" >> $env:GITHUB_STEP_SUMMARY
-          echo "" >> $env:GITHUB_STEP_SUMMARY
+    - name: Deployment Summary
+      shell: pwsh
+      run: |
+        echo "## Deployment Successful!" >> $env:GITHUB_STEP_SUMMARY
+        echo "" >> $env:GITHUB_STEP_SUMMARY
 
-          echo "**Solution:** ${{ inputs.solution_name }}" >> $env:GITHUB_STEP_SUMMARY
+        echo "**Solution:** ${{ inputs.solution_name }}" >> $env:GITHUB_STEP_SUMMARY
 
-          echo "**Version:** ${{ needs.export-and-version.outputs.new_version }}" >> $env:GITHUB_STEP_SUMMARY
+        echo "**Version:** ${{ needs.export-and-version.outputs.new_version }}" >> $env:GITHUB_STEP_SUMMARY
 
-          echo "**Bump Type:** ${{ inputs.version_bump }}" >> $env:GITHUB_STEP_SUMMARY
+        echo "**Bump Type:** ${{ inputs.version_bump }}" >> $env:GITHUB_STEP_SUMMARY
 
-          echo "**Release Notes:** ${{ inputs.release_notes }}" >> $env:GITHUB_STEP_SUMMARY
+        echo "**Release Notes:** ${{ inputs.release_notes }}" >> $env:GITHUB_STEP_SUMMARY
 
-          echo "" >> $env:GITHUB_STEP_SUMMARY
+        echo "" >> $env:GITHUB_STEP_SUMMARY
 
-          echo "### Environments" >> $env:GITHUB_STEP_SUMMARY
+        echo "### Environments" >> $env:GITHUB_STEP_SUMMARY
 
-          echo "- DEV: Exported and Committed" >> $env:GITHUB_STEP_SUMMARY
+        echo "- DEV: Exported and Committed" >> $env:GITHUB_STEP_SUMMARY
 
-          echo "- TARGET: Deployed Successfully" >> $env:GITHUB_STEP_SUMMARY
-
-
-
-
-
-
-
-
-
-
-
+        echo "- TARGET: Deployed Successfully" >> $env:GITHUB_STEP_SUMMARY
 
 # name: Export and Deploy Solution with Versioning
 
@@ -273,7 +224,7 @@ jobs:
 #     runs-on: windows-latest
 #     outputs:
 #       new_version: ${{ steps.version.outputs.new_version }}
-    
+
 #     steps:
 #     - name: Checkout code
 #       uses: actions/checkout@v3
@@ -306,19 +257,19 @@ jobs:
 #       shell: pwsh
 #       run: |
 #         $solutionXml = "solutions/${{ inputs.solution_name }}/Other/Solution.xml"
-        
+
 #         if (Test-Path $solutionXml) {
 #           [xml]$xml = Get-Content $solutionXml
 #           $currentVersion = $xml.ImportExportXml.SolutionManifest.Version
 #           Write-Host "Current version: $currentVersion"
-          
+
 #           # Parse version
 #           $parts = $currentVersion -split '\.'
 #           $major = [int]$parts[0]
 #           $minor = [int]$parts[1]
 #           $build = [int]$parts[2]
 #           $revision = [int]$parts[3]
-          
+
 #           # Bump version based on input
 #           switch ("${{ inputs.version_bump }}") {
 #             "major" { 
@@ -336,14 +287,14 @@ jobs:
 #               $revision++ 
 #             }
 #           }
-          
+
 #           $newVersion = "$major.$minor.$build.$revision"
 #           Write-Host "New version: $newVersion"
-          
+
 #           # Update Solution.xml
 #           $xml.ImportExportXml.SolutionManifest.Version = $newVersion
 #           $xml.Save($solutionXml)
-          
+
 #           # Output for next jobs
 #           echo "new_version=$newVersion" >> $env:GITHUB_OUTPUT
 #           echo "old_version=$currentVersion" >> $env:GITHUB_OUTPUT
@@ -358,7 +309,7 @@ jobs:
 #         $changelogPath = "CHANGELOG.md"
 #         $date = Get-Date -Format "yyyy-MM-dd"
 #         $version = "${{ steps.version.outputs.new_version }}"
-        
+
 #         # Create CHANGELOG if doesn't exist
 #         if (-not (Test-Path $changelogPath)) {
 #         @"
@@ -368,10 +319,10 @@ jobs:
 
 # "@ | Out-File -FilePath $changelogPath -Encoding UTF8
 #         }
-        
+
 #         # Read existing content
 #         $content = Get-Content $changelogPath -Raw
-        
+
 #         # Create new entry
 #         $newEntry = @"
 # ## [$version] - $date - ${{ inputs.solution_name }}
@@ -386,7 +337,7 @@ jobs:
 # ---
 
 # "@
-        
+
 #         # Insert after header
 #         $updatedContent = $content -replace "(# Changelog.*?\n\n)", "`$1$newEntry"
 #         $updatedContent | Out-File -FilePath $changelogPath -Encoding UTF8 -NoNewline
@@ -408,13 +359,13 @@ jobs:
 #   deploy-to-target:
 #     runs-on: windows-latest
 #     needs: export-and-version
-    
+
 #     steps:
 #     - name: Checkout code
 #       uses: actions/checkout@v3
 #       with:
 #         ref: main
-    
+
 #     - name: Pull latest changes
 #       run: git pull origin main
 
@@ -451,4 +402,3 @@ jobs:
 #         echo "### Environments" >> $GITHUB_STEP_SUMMARY
 #         echo "- ✅ DEV: Exported & Committed" >> $GITHUB_STEP_SUMMARY
 #         echo "- ✅ TARGET: Deployed Successfully" >> $GITHUB_STEP_SUMMARY
-
