@@ -85,7 +85,7 @@ jobs:
         app-id: '${{ secrets.CLIENT_ID }}'
         client-secret: '${{ secrets.CLIENT_SECRET }}'
         tenant-id: '${{ secrets.TENANT_ID }}'
-        solution-file: 'solutions/${{ inputs.solution_name }}_managed.zip'
+        solution-file: 'solutions/${{ inputs.solution_name }}_Unmanaged.zip'
         force-overwrite: true
         publish-changes: true
 
