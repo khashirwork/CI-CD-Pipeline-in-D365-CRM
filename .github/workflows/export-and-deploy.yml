@@ -27,10 +27,10 @@ jobs:
         lfs: true
 
     - name: Setup Power Platform CLI
-      uses: microsoft/powerplatform-actions/actions-install@v1
+      uses: microsoft/powerplatform-actions/actions-install@v0
 
     - name: Export solution from DEV
-      uses: microsoft/powerplatform-actions/export-solution@v1
+      uses: microsoft/powerplatform-actions/export-solution@v0
       with:
         environment-url: ${{ secrets.DEV_URL }}
         app-id: ${{ secrets.CLIENT_ID }}
@@ -41,7 +41,7 @@ jobs:
         managed: false
 
     - name: Unpack solution
-      uses: microsoft/powerplatform-actions/unpack-solution@v1
+      uses: microsoft/powerplatform-actions/unpack-solution@v0
       with:
         solution-file: 'solutions/${{ inputs.solution_name }}.zip'
         solution-folder: 'solutions/${{ inputs.solution_name }}'
@@ -66,17 +66,17 @@ jobs:
         lfs: true
 
     - name: Setup Power Platform CLI
-      uses: microsoft/powerplatform-actions/actions-install@v1
+      uses: microsoft/powerplatform-actions/actions-install@v0
 
     - name: Pack solution
-      uses: microsoft/powerplatform-actions/pack-solution@v1
+      uses: microsoft/powerplatform-actions/pack-solution@v0
       with:
         solution-folder: 'solutions/${{ inputs.solution_name }}'
         solution-file: 'solutions/${{ inputs.solution_name }}_managed.zip'
         solution-type: 'Managed'
 
     - name: Import to TARGET environment
-      uses: microsoft/powerplatform-actions/import-solution@v1
+      uses: microsoft/powerplatform-actions/import-solution@v0
       with:
         environment-url: ${{ secrets.TARGET_URL }}
         app-id: ${{ secrets.CLIENT_ID }}
