@@ -207,26 +207,26 @@
 
 name: Export and Deploy Solution with Versioning
 
-on:
+"on":
   workflow_dispatch:
     inputs:
       solution_name:
-        description: 'Solution name to export (e.g., TestSolution)'
+        description: "Solution name to export (e.g., TestSolution)"
         required: true
         type: string
 
       version_bump:
-        description: 'Version bump type'
+        description: "Version bump type"
         required: true
         type: choice
         options:
           - patch
           - minor
           - major
-        default: 'patch'
+        default: patch
 
       release_notes:
-        description: 'What changed in this version?'
+        description: "What changed in this version?"
         required: true
         type: string
 
@@ -249,20 +249,20 @@ jobs:
       - name: Export solution from DEV
         uses: microsoft/powerplatform-actions/export-solution@v1.0.0
         with:
-          environment-url: ${{ secrets.DEV_URL }}
-          app-id: ${{ secrets.CLIENT_ID }}
-          client-secret: ${{ secrets.CLIENT_SECRET }}
-          tenant-id: ${{ secrets.TENANT_ID }}
-          solution-name: ${{ inputs.solution_name }}
-          solution-output-file: solutions/${{ inputs.solution_name }}.zip
+          environment-url: "${{ secrets.DEV_URL }}"
+          app-id: "${{ secrets.CLIENT_ID }}"
+          client-secret: "${{ secrets.CLIENT_SECRET }}"
+          tenant-id: "${{ secrets.TENANT_ID }}"
+          solution-name: "${{ inputs.solution_name }}"
+          solution-output-file: "solutions/${{ inputs.solution_name }}.zip"
           managed: false
 
       - name: Unpack solution
         uses: microsoft/powerplatform-actions/unpack-solution@v1.0.0
         with:
-          solution-file: solutions/${{ inputs.solution_name }}.zip
-          solution-folder: solutions/${{ inputs.solution_name }}
-          solution-type: Unmanaged
+          solution-file: "solutions/${{ inputs.solution_name }}.zip"
+          solution-folder: "solutions/${{ inputs.solution_name }}"
+          solution-type: "Unmanaged"
 
       - name: Read current version
         id: version
@@ -327,7 +327,6 @@ jobs:
       - name: Update CHANGELOG.md
         shell: pwsh
         run: |
-
           $changelogPath = "CHANGELOG.md"
 
           $date = Get-Date -Format "yyyy-MM-dd"
@@ -339,6 +338,7 @@ jobs:
             $initialContent = @"
 # Changelog
 
+All notable changes to this project will be documented in this file.
 "@
 
             Set-Content -Path $changelogPath -Value $initialContent
@@ -347,6 +347,7 @@ jobs:
           $content = Get-Content $changelogPath -Raw
 
           $newEntry = @"
+
 ## [$version] - $date - ${{ inputs.solution_name }}
 
 ### Changed
@@ -357,39 +358,27 @@ jobs:
 - Bump type: ${{ inputs.version_bump }}
 
 ---
-
 "@
 
-          $pattern = "(# Changelog.*?`r?`n`r?`n)"
-
-          $updatedContent = $content -replace $pattern, "`$1$newEntry"
-
-          Set-Content -Path $changelogPath -Value $updatedContent
+          Add-Content -Path $changelogPath -Value $newEntry
 
       - name: Commit changes with version
         shell: pwsh
         run: |
-
           git config user.name "GitHub Actions Bot"
 
           git config user.email "actions@github.com"
 
-          git add solutions/${{ inputs.solution_name }}/
+          git add .
 
-          git add CHANGELOG.md
-
-          git commit -m "Release ${{ inputs.solution_name }} v${{ steps.version.outputs.new_version }}" `
-            -m "${{ inputs.release_notes }}" || echo "No changes to commit"
+          git commit -m "Release ${{ inputs.solution_name }} v${{ steps.version.outputs.new_version }}" || Write-Host "No changes to commit"
 
           git push
 
       - name: Create Git Tag
         shell: pwsh
         run: |
-
-          git tag -a "v${{ steps.version.outputs.new_version }}-${{ inputs.solution_name }}" `
-            -m "Release ${{ inputs.solution_name }} v${{ steps.version.outputs.new_version }}" `
-            -m "${{ inputs.release_notes }}"
+          git tag -a "v${{ steps.version.outputs.new_version }}-${{ inputs.solution_name }}" -m "Release ${{ inputs.solution_name }} v${{ steps.version.outputs.new_version }}"
 
           git push origin "v${{ steps.version.outputs.new_version }}-${{ inputs.solution_name }}"
 
@@ -415,25 +404,24 @@ jobs:
       - name: Pack solution
         uses: microsoft/powerplatform-actions/pack-solution@v1.0.0
         with:
-          solution-folder: solutions/${{ inputs.solution_name }}
-          solution-file: solutions/${{ inputs.solution_name }}_v${{ needs.export-and-version.outputs.new_version }}.zip
-          solution-type: Unmanaged
+          solution-folder: "solutions/${{ inputs.solution_name }}"
+          solution-file: "solutions/${{ inputs.solution_name }}_v${{ needs.export-and-version.outputs.new_version }}.zip"
+          solution-type: "Unmanaged"
 
       - name: Import to TARGET environment
         uses: microsoft/powerplatform-actions/import-solution@v1.0.0
         with:
-          environment-url: ${{ secrets.TARGET_URL }}
-          app-id: ${{ secrets.CLIENT_ID }}
-          client-secret: ${{ secrets.CLIENT_SECRET }}
-          tenant-id: ${{ secrets.TENANT_ID }}
-          solution-file: solutions/${{ inputs.solution_name }}_v${{ needs.export-and-version.outputs.new_version }}.zip
+          environment-url: "${{ secrets.TARGET_URL }}"
+          app-id: "${{ secrets.CLIENT_ID }}"
+          client-secret: "${{ secrets.CLIENT_SECRET }}"
+          tenant-id: "${{ secrets.TENANT_ID }}"
+          solution-file: "solutions/${{ inputs.solution_name }}_v${{ needs.export-and-version.outputs.new_version }}.zip"
           force-overwrite: true
           publish-changes: true
 
       - name: Deployment Summary
         shell: pwsh
         run: |
-
           echo "## Deployment Successful!" >> $env:GITHUB_STEP_SUMMARY
           echo "" >> $env:GITHUB_STEP_SUMMARY
 
