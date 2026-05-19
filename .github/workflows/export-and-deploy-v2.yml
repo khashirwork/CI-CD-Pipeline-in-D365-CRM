@@ -129,29 +129,29 @@ jobs:
           if (-not (Test-Path $changelogPath)) {
 
             $initialContent = @"
-# Changelog
+  # Changelog
 
-All notable changes to this project will be documented in this file.
-"@
+  All notable changes to this project will be documented in this file.
+  "@
 
-            Set-Content -Path $changelogPath -Value $initialContent
-          }
+              Set-Content -Path $changelogPath -Value $initialContent
+            }
 
-          $content = Get-Content $changelogPath -Raw
+            $content = Get-Content $changelogPath -Raw
 
-          $newEntry = @"
+            $newEntry = @"
 
-## [$version] - $date - ${{ inputs.solution_name }}
+  ## [$version] - $date - ${{ inputs.solution_name }}
 
-### Changed
-- ${{ inputs.release_notes }}
+  ### Changed
+  - ${{ inputs.release_notes }}
 
-### Version Info
-- Previous version: ${{ steps.version.outputs.old_version }}
-- Bump type: ${{ inputs.version_bump }}
+  ### Version Info
+  - Previous version: ${{ steps.version.outputs.old_version }}
+  - Bump type: ${{ inputs.version_bump }}
 
----
-"@
+  ---
+  "@
 
           Add-Content -Path $changelogPath -Value $newEntry
 
