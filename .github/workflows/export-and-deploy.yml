@@ -75,8 +75,8 @@ jobs:
       uses: microsoft/powerplatform-actions/pack-solution@v1.0.0
       with:
         solution-folder: 'solutions/${{ inputs.solution_name }}'
-        solution-file: 'solutions/${{ inputs.solution_name }}_managed.zip'
-        solution-type: 'Managed'
+        solution-file: 'solutions/${{ inputs.solution_name }}_Unmanaged.zip'
+        solution-type: 'Unmanaged'
 
     - name: Import to TARGET environment
       uses: microsoft/powerplatform-actions/import-solution@v1.0.0
