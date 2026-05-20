@@ -49,6 +49,7 @@ jobs:
         solution-name: "${{ inputs.solution_name }}"
         solution-output-file: "solutions/${{ inputs.solution_name }}.zip"
         managed: false
+        overwrite: true
 
     - name: Unpack solution
       uses: microsoft/powerplatform-actions/unpack-solution@v1.0.0
