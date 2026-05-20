@@ -18,6 +18,15 @@ name: Export and Deploy Solution with Versioning
         - major
         default: patch
 
+      import_strategy:
+        description: "Import strategy for TARGET environment"
+        required: true
+        type: choice
+        options:
+        - update
+        - upgrade
+        default: update
+
       release_notes:
         description: "What changed in this version?"
         required: true
@@ -164,7 +173,44 @@ jobs:
         solution-file: "solutions/zip_files/${{ inputs.solution_name }}_v${{ needs.export-and-version.outputs.new_version }}.zip"
         solution-type: "Unmanaged"
 
-    - name: Import to TARGET environment
+    # - name: Import to TARGET environment
+    #   uses: microsoft/powerplatform-actions/import-solution@v1.0.0
+    #   with:
+    #     environment-url: "${{ secrets.TARGET_URL }}"
+    #     app-id: "${{ secrets.CLIENT_ID }}"
+    #     client-secret: "${{ secrets.CLIENT_SECRET }}"
+    #     tenant-id: "${{ secrets.TENANT_ID }}"
+    #     solution-file: "solutions/zip_files/${{ inputs.solution_name }}_v${{ needs.export-and-version.outputs.new_version }}.zip"
+    #     force-overwrite: true
+    #     publish-changes: true
+
+    - name: Apply Upgrade (Stage Holding Solution)
+      if: inputs.import_strategy == 'upgrade'
+      uses: microsoft/powerplatform-actions/import-solution@v1.0.0
+      with:
+        environment-url: "${{ secrets.TARGET_URL }}"
+        app-id: "${{ secrets.CLIENT_ID }}"
+        client-secret: "${{ secrets.CLIENT_SECRET }}"
+        tenant-id: "${{ secrets.TENANT_ID }}"
+        solution-file: "solutions/zip_files/${{ inputs.solution_name }}_v${{ needs.export-and-version.outputs.new_version }}.zip"
+        import-as-holding: true
+        force-overwrite: true
+        publish-changes: false
+
+    # NEW STEP - Apply the Upgrade (Delete & Replace)
+    - name: Complete Upgrade (Apply Solution Upgrade)
+      if: inputs.import_strategy == 'upgrade'
+      uses: microsoft/powerplatform-actions/upgrade-solution@v1.0.0
+      with:
+        environment-url: "${{ secrets.TARGET_URL }}"
+        app-id: "${{ secrets.CLIENT_ID }}"
+        client-secret: "${{ secrets.CLIENT_SECRET }}"
+        tenant-id: "${{ secrets.TENANT_ID }}"
+        solution-name: "${{ inputs.solution_name }}"
+
+    # EXISTING STEP - Update Import (if selected)
+    - name: Import to TARGET (Update Mode)
+      if: inputs.import_strategy == 'update'
       uses: microsoft/powerplatform-actions/import-solution@v1.0.0
       with:
         environment-url: "${{ secrets.TARGET_URL }}"
