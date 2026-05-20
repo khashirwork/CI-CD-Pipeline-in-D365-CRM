@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<savedqueries xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <savedquery>
+    <IsCustomizable>1</IsCustomizable>
+    <CanBeDeleted>0</CanBeDeleted>
+    <isquickfindquery>0</isquickfindquery>
+    <isprivate>0</isprivate>
+    <isdefault>1</isdefault>
+    <savedqueryid>{635e6776-2e30-4a43-b705-e85f4797325c}</savedqueryid>
+    <layoutxml>
+      <grid name="resultset" jump="hash_flightnumber" select="1" icon="1" preview="1">
+        <row name="result" id="hash_flightid">
+          <cell name="hash_flightnumber" width="300" />
+          <cell name="hash_departuretime" width="150" />
+          <cell name="hash_arrivaltime" width="150" />
+          <cell name="hash_destinationid" width="150" />
+        </row>
+      </grid>
+    </layoutxml>
+    <querytype>0</querytype>
+    <fetchxml>
+      <fetch version="1.0" mapping="logical">
+        <entity name="hash_flight">
+          <attribute name="hash_flightid" />
+          <attribute name="hash_flightnumber" />
+          <attribute name="createdon" />
+          <order attribute="hash_flightnumber" descending="false" />
+          <filter type="and">
+            <condition attribute="statecode" operator="eq" value="0" />
+          </filter>
+          <attribute name="hash_departuretime" />
+          <attribute name="hash_arrivaltime" />
+          <attribute name="hash_destinationid" />
+        </entity>
+      </fetch>
+    </fetchxml>
+    <IntroducedVersion>1.0</IntroducedVersion>
+    <LocalizedNames>
+      <LocalizedName description="Active Flights" languagecode="1033" />
+    </LocalizedNames>
+  </savedquery>
+</savedqueries>
