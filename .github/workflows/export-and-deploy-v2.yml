@@ -62,7 +62,7 @@ jobs:
       with:
         solution-file: "solutions/${{ inputs.solution_name }}.zip"
         solution-folder: "solutions/${{ inputs.solution_name }}"
-        solution-type: "Unmanaged"
+        solution-type: "${{ inputs.export_as_managed && 'Managed' || 'Unmanaged' }}"
 
     - name: Read current version
       id: version
