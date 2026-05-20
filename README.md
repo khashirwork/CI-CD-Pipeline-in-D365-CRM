@@ -282,7 +282,7 @@ For issues or improvements:
 
 ## 📜 License
 
-This workflow is maintained by [Your Organization Name] for internal ALM automation.
+This workflow is maintained by Hashir Khan for internal ALM automation.
 
 ---
 
