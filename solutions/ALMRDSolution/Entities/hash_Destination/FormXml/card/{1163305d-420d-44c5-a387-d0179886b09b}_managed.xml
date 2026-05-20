@@ -31,7 +31,7 @@
                     <row>
                       <cell id="{b4cbe6e2-fad2-4419-8a00-51428ab21374}" showlabel="true" locklevel="0">
                         <labels>
-                          <label description="Status Reason" languagecode="1033" />
+                          <label description="" languagecode="1033" />
                         </labels>
                         <control id="statuscode" classid="{5D68B988-0661-4db2-BC3E-17598AD3BE6C}" datafieldname="statuscode" disabled="false" />
                       </cell>
@@ -56,7 +56,7 @@
                     <row>
                       <cell id="{b23cba78-190a-478a-9eb7-83042e9b65a5}" showlabel="true" locklevel="0">
                         <labels>
-                          <label description="Destination Name" languagecode="1033" />
+                          <label description="" languagecode="1033" />
                         </labels>
                         <control id="hash_destinationname" classid="{4273EDBD-AC1D-40d3-9FB2-095C621B552D}" datafieldname="hash_destinationname" disabled="false" />
                       </cell>
@@ -71,13 +71,13 @@
                     <row>
                       <cell id="{369eddb3-dc62-4136-bc91-1847d82a19de}" showlabel="true" locklevel="0">
                         <labels>
-                          <label description="Owner" languagecode="1033" />
+                          <label description="" languagecode="1033" />
                         </labels>
                         <control id="ownerid" classid="{270BD3DB-D9AF-4782-9025-509E298DEC0A}" datafieldname="ownerid" disabled="false" />
                       </cell>
                       <cell id="{08c5e9c0-4cf4-4225-a185-695932174c6c}" showlabel="true" locklevel="0">
                         <labels>
-                          <label description="Created On" languagecode="1033" />
+                          <label description="" languagecode="1033" />
                         </labels>
                         <control id="createdon" classid="{270BD3DB-D9AF-4782-9025-509E298DEC0A}" datafieldname="createdon" disabled="false" />
                       </cell>
