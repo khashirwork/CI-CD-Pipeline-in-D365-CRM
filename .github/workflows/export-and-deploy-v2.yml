@@ -48,7 +48,7 @@ jobs:
         tenant-id: "${{ secrets.TENANT_ID }}"
         solution-name: "${{ inputs.solution_name }}"
         solution-output-file: "solutions/zip_files/${{ inputs.solution_name }}.zip"
-        managed: true
+        managed: false
         overwrite: true
 
     - name: Unpack solution
@@ -56,7 +56,7 @@ jobs:
       with:
         solution-file: "solutions/zip_files/${{ inputs.solution_name }}.zip"
         solution-folder: "solutions/${{ inputs.solution_name }}"
-        solution-type: "Managed"
+        solution-type: "Both"
 
     - name: Read current version
       id: version
