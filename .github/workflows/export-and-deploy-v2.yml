@@ -18,12 +18,6 @@ name: Export and Deploy Solution with Versioning
         - major
         default: patch
 
-      deploy_as_managed:
-        description: "Deploy as managed solution to TARGET?"
-        required: true
-        type: boolean
-        default: true
-
       release_notes:
         description: "What changed in this version?"
         required: true
