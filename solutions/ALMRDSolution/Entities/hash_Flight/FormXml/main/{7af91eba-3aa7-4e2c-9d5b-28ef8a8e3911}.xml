@@ -1,54 +1,62 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <forms xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <systemform>
-    <formid>{b7a3558f-9a97-489e-9172-b6be9173eab1}</formid>
+    <formid>{7af91eba-3aa7-4e2c-9d5b-28ef8a8e3911}</formid>
     <IntroducedVersion>1.0</IntroducedVersion>
     <FormPresentation>1</FormPresentation>
     <FormActivationState>1</FormActivationState>
     <form>
       <tabs>
-        <tab verticallayout="true" id="{9e336011-5761-4e31-93f7-5a31b6417cd3}" IsUserDefined="1">
+        <tab verticallayout="true" id="{2e095971-1d87-4e38-93f5-bfb131ee2df6}" IsUserDefined="1">
           <labels>
             <label description="General" languagecode="1033" />
           </labels>
           <columns>
             <column width="100%">
               <sections>
-                <section showlabel="false" showbar="false" IsUserDefined="0" id="{e5344a8d-d2fd-4a04-95ab-7e9d689bc633}">
+                <section showlabel="false" showbar="false" IsUserDefined="0" id="{15e343b7-5939-4524-8a5a-4ccdcb9157af}">
                   <labels>
                     <label description="General" languagecode="1033" />
                   </labels>
                   <rows>
                     <row>
-                      <cell id="{6a165df2-495b-44d8-af4e-3a3c32cca66b}">
+                      <cell id="{d945b50b-f254-4465-9b0b-de5863692f9f}">
                         <labels>
-                          <label description="" languagecode="1033" />
+                          <label description="Flight Number" languagecode="1033" />
                         </labels>
-                        <control id="hash_bookingreference" classid="{4273EDBD-AC1D-40d3-9FB2-095C621B552D}" datafieldname="hash_bookingreference" />
+                        <control id="hash_flightnumber" classid="{4273EDBD-AC1D-40d3-9FB2-095C621B552D}" datafieldname="hash_flightnumber" />
                       </cell>
                     </row>
                     <row>
-                      <cell id="{03ccab7a-fc7b-4a72-9e08-225b940df132}">
+                      <cell id="{fd08b03f-eea7-4bd8-a3fc-27655e80daf1}">
                         <labels>
-                          <label description="" languagecode="1033" />
+                          <label description="Owner" languagecode="1033" />
                         </labels>
                         <control id="ownerid" classid="{270BD3DB-D9AF-4782-9025-509E298DEC0A}" datafieldname="ownerid" />
                       </cell>
                     </row>
                     <row>
-                      <cell id="{25cfd487-8fe0-4c40-bbcd-01898b66eda5}">
+                      <cell id="{aaa00bdc-df5e-403e-99da-f198a70badd9}">
                         <labels>
-                          <label description="" languagecode="1033" />
+                          <label description="Departure Time" languagecode="1033" />
                         </labels>
-                        <control id="hash_bookingdate" classid="{5b773807-9fb2-42db-97c3-7a91eff8adff}" datafieldname="hash_bookingdate" />
+                        <control id="hash_departuretime" classid="{5b773807-9fb2-42db-97c3-7a91eff8adff}" datafieldname="hash_departuretime" />
                       </cell>
                     </row>
                     <row>
-                      <cell id="{bcd6a1eb-1088-466a-8e59-5b349b837a15}">
+                      <cell id="{919c1931-37b4-4b12-9ddf-50b3445a7192}">
                         <labels>
-                          <label description="" languagecode="1033" />
+                          <label description="Arrival Time" languagecode="1033" />
                         </labels>
-                        <control id="hash_flightid" classid="{270bd3db-d9af-4782-9025-509e298dec0a}" datafieldname="hash_flightid" />
+                        <control id="hash_arrivaltime" classid="{5b773807-9fb2-42db-97c3-7a91eff8adff}" datafieldname="hash_arrivaltime" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{490bfe1d-0ba4-4b4b-baef-367f537bb76d}">
+                        <labels>
+                          <label description="Destination" languagecode="1033" />
+                        </labels>
+                        <control id="hash_destinationid" classid="{270bd3db-d9af-4782-9025-509e298dec0a}" datafieldname="hash_destinationid" />
                       </cell>
                     </row>
                   </rows>
