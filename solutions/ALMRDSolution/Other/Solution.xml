@@ -6,7 +6,7 @@
       <LocalizedName description="ALM R&amp;D Solution" languagecode="1033" />
     </LocalizedNames>
     <Descriptions />
-    <Version>1.1.0.0</Version>
+    <Version>1.0.0.3</Version>
     <Managed>0</Managed>
     <Publisher>
       <UniqueName>Hashir</UniqueName>
@@ -126,22 +126,12 @@
       </Addresses>
     </Publisher>
     <RootComponents>
-      <RootComponent type="1" schemaName="account" behavior="1" />
-      <RootComponent type="1" schemaName="activitypointer" behavior="2" />
       <RootComponent type="1" schemaName="contact" behavior="1" />
       <RootComponent type="1" schemaName="hash_booking" behavior="0" />
       <RootComponent type="1" schemaName="hash_destination" behavior="0" />
       <RootComponent type="1" schemaName="hash_flight" behavior="0" />
     </RootComponents>
     <MissingDependencies>
-      <MissingDependency>
-        <Required type="1" schemaName="account" displayName="Account" parentSchemaName="" solution="msdyn_ChannelExperienceApp (1.0.26042.1013)" />
-        <Dependent type="1" schemaName="account" displayName="Account" />
-      </MissingDependency>
-      <MissingDependency>
-        <Required type="1" schemaName="activitypointer" displayName="ActivityPointer" parentSchemaName="" solution="msdyn_QMSConversation (1.0.26042.1015)" />
-        <Dependent type="1" schemaName="activitypointer" displayName="ActivityPointer" />
-      </MissingDependency>
       <MissingDependency>
         <Required type="1" schemaName="contact" displayName="Contact" parentSchemaName="" solution="msdyn_ChannelExperienceApp (1.0.26042.1013)" />
         <Dependent type="1" schemaName="contact" displayName="Contact" />
