@@ -174,7 +174,6 @@ jobs:
         solution-file: "solutions/zip_files/${{ inputs.solution_name }}_v${{ needs.export-and-version.outputs.new_version }}.zip"
         force-overwrite: true
         publish-changes: true
-        managed: true
 
     - name: Deployment Summary
       shell: pwsh
