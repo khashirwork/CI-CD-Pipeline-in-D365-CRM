@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<savedqueries xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <savedquery>
+    <IsCustomizable>1</IsCustomizable>
+    <CanBeDeleted>0</CanBeDeleted>
+    <isquickfindquery>1</isquickfindquery>
+    <isprivate>0</isprivate>
+    <isdefault>1</isdefault>
+    <savedqueryid>{9e516a0b-0737-42a6-b8d6-024c919fed13}</savedqueryid>
+    <layoutxml>
+      <grid name="resultset" jump="hash_flightnumber" select="1" icon="1" preview="1">
+        <row name="result" id="hash_flightid">
+          <cell name="hash_flightnumber" width="300" />
+          <cell name="createdon" width="125" />
+        </row>
+      </grid>
+    </layoutxml>
+    <querytype>4</querytype>
+    <fetchxml>
+      <fetch version="1.0" mapping="logical">
+        <entity name="hash_flight">
+          <attribute name="hash_flightid" />
+          <attribute name="hash_flightnumber" />
+          <attribute name="createdon" />
+          <order attribute="hash_flightnumber" descending="false" />
+          <filter type="and">
+            <condition attribute="statecode" operator="eq" value="0" />
+          </filter>
+          <filter type="or" isquickfindfields="1">
+            <condition attribute="hash_flightnumber" operator="like" value="{0}" />
+          </filter>
+        </entity>
+      </fetch>
+    </fetchxml>
+    <IntroducedVersion>1.0</IntroducedVersion>
+    <LocalizedNames>
+      <LocalizedName description="Quick Find Active Flights" languagecode="1033" />
+    </LocalizedNames>
+  </savedquery>
+</savedqueries>
