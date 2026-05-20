@@ -30,7 +30,7 @@
                     <row>
                       <cell id="{60909835-ef95-4668-b5be-8877d0814d95}">
                         <labels>
-                          <label description="Country" languagecode="1033" />
+                          <label description="" languagecode="1033" />
                         </labels>
                         <control id="hash_country" classid="{4273edbd-ac1d-40d3-9fb2-095c621b552d}" datafieldname="hash_country" />
                       </cell>
@@ -62,19 +62,19 @@
             </cell>
             <cell id="{3e1c8fae-b1e8-438a-ba7d-2da91e39204b}" colspan="1" rowspan="1">
               <labels>
-                <label description="Owner" languagecode="1033" />
+                <label description="" languagecode="1033" />
               </labels>
               <control id="header_ownerid" classid="{270BD3DB-D9AF-4782-9025-509E298DEC0A}" datafieldname="ownerid" />
             </cell>
             <cell id="{b9638ef6-8dc2-4277-9d8f-4a11c76a8139}" locklevel="0" colspan="1" rowspan="1">
               <labels>
-                <label description="Status" languagecode="1033" />
+                <label description="" languagecode="1033" />
               </labels>
               <control id="header_statecode" classid="{3EF39988-22BB-4F0B-BBBE-64B5A3748AEE}" datafieldname="statecode" disabled="false" />
             </cell>
             <cell id="{db105497-3423-4d92-8227-d9553ab71b58}" locklevel="0" colspan="1" rowspan="1">
               <labels>
-                <label description="Status Reason" languagecode="1033" />
+                <label description="" languagecode="1033" />
               </labels>
               <control id="header_statuscode" classid="{3EF39988-22BB-4F0B-BBBE-64B5A3748AEE}" datafieldname="statuscode" disabled="false" />
             </cell>
