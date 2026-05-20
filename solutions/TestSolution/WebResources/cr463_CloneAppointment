@@ -1,0 +1,116 @@
+///////
+//Hashir Khan
+//07/05/2026
+///////
+
+
+function cloneAppointment() {
+    try {
+        debugger;
+        var recordId = Xrm.Page.data.entity.getId().replace("{", "").replace("}", "");
+        var entityName = Xrm.Page.data.entity.getEntityName();
+
+        var query = "?$select=subject,description,location,_ownerid_value,scheduledstart,scheduledend,scheduleddurationminutes,prioritycode,category,isonlinemeeting,isalldayevent,_regardingobjectid_value&$expand=appointment_activity_parties($select=_partyid_value,participationtypemask)";
+
+        Xrm.WebApi.retrieveRecord(entityName, recordId, query).then(
+            function success(result) {
+
+                var parameters = {};
+
+                if (result.subject) parameters["subject"] = result.subject;
+                if (result.description) parameters["description"] = result.description;
+                if (result.location) parameters["location"] = result.location;
+                // if (result.scheduleddurationminutes) parameters["scheduleddurationminutes"] = result.scheduleddurationminutes;
+                if (result["_regardingobjectid_value"]) {
+                    parameters["regardingobjectid"] = result._regardingobjectid_value;
+                    parameters["regardingobjectidtype"] = result["_regardingobjectid_value@Microsoft.Dynamics.CRM.lookuplogicalname"];
+                    parameters["regardingobjectidname"] = result["_regardingobjectid_value@OData.Community.Display.V1.FormattedValue"] || "";
+                }
+                parameters["ownerid"] = result["_ownerid_value"];
+                parameters["owneridname"] = result["_ownerid_value@OData.Community.Display.V1.FormattedValue"];
+                parameters["owneridtype"] = result["_ownerid_value@Microsoft.Dynamics.CRM.lookuplogicalname"];
+
+                // if (result["_regardingobjectid_value"]) {
+
+                //     parameters["regardingobjectid"] = [{
+                //         id: result["_regardingobjectid_value"],
+                //         entityType: result["_regardingobjectid_value@Microsoft.Dynamics.CRM.lookuplogicalname"],
+                //         name: result["_regardingobjectid_value@OData.Community.Display.V1.FormattedValue"] || ""
+                //     }];
+                // }
+                if (result.isonlinemeeting !== null && result.isonlinemeeting !== undefined) {
+                    parameters["isonlinemeeting"] = result.isonlinemeeting;
+                }
+                if (result.isalldayevent !== null && result.isalldayevent !== undefined) {
+                    parameters["isalldayevent"] = result.isalldayevent;
+                }
+                if (result.prioritycode) parameters["prioritycode"] = result.prioritycode;
+                if (result.category) parameters["category"] = result.category;
+                if (result.appointment_activity_parties && result.appointment_activity_parties.length > 0) {
+                    var requiredAttendees = [];
+                    var optionalAttendees = [];
+
+                    result.appointment_activity_parties.forEach(function (party) {
+                        var partyId = party._partyid_value;
+                        var entityType = party["_partyid_value@Microsoft.Dynamics.CRM.lookuplogicalname"];
+                        var partyName = party["_partyid_value@OData.Community.Display.V1.FormattedValue"] || "";
+
+                        if (party.participationtypemask === 5 && partyId && entityType) {
+                            requiredAttendees.push({
+                                id: partyId,
+                                name: partyName,
+                                entityType: entityType
+                            });
+                        } else if (party.participationtypemask === 6 && partyId && entityType) {
+                            optionalAttendees.push({
+                                id: partyId,
+                                name: partyName,
+                                entityType: entityType
+                            });
+                        }
+                    });
+
+                    if (requiredAttendees.length > 0) {
+                        parameters["requiredattendees"] = requiredAttendees;
+                    }
+                    if (optionalAttendees.length > 0) {
+                        parameters["optionalattendees"] = optionalAttendees;
+                    }
+                }
+
+                var pageInput = {
+                    pageType: "entityrecord",
+                    entityName: "appointment",
+                    data: parameters
+                };
+
+                var entityFormOptions = {
+                    entityName: "appointment",
+                    useQuickCreateForm: false,
+                    openInNewWindow: true
+                };
+
+                Xrm.Navigation.openForm(entityFormOptions, parameters).then(
+                    function (success) {
+                        console.log("Clone form opened in new browser tab");
+                    },
+                    function (error) {
+                        Xrm.Navigation.openAlertDialog({
+                            text: "Error opening clone form: " + error.message
+                        });
+                    }
+                );
+            },
+            function error(err) {
+                Xrm.Navigation.openAlertDialog({
+                    text: "Error retrieving appointment data: " + err.message
+                });
+            }
+        );
+
+    } catch (e) {
+        Xrm.Navigation.openAlertDialog({
+            text: "Error in clone operation: " + e.message
+        });
+    }
+}
