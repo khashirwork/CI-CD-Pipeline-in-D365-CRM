@@ -48,7 +48,7 @@ jobs:
         tenant-id: "${{ secrets.TENANT_ID }}"
         solution-name: "${{ inputs.solution_name }}"
         solution-output-file: "solutions/zip_files/${{ inputs.solution_name }}.zip"
-        managed: false
+        managed: true
         overwrite: true
 
     - name: Unpack solution
@@ -56,7 +56,7 @@ jobs:
       with:
         solution-file: "solutions/zip_files/${{ inputs.solution_name }}.zip"
         solution-folder: "solutions/${{ inputs.solution_name }}"
-        solution-type: "Unmanaged"
+        solution-type: "Managed"
 
     - name: Read current version
       id: version
@@ -162,7 +162,7 @@ jobs:
       with:
         solution-folder: "solutions/${{ inputs.solution_name }}"
         solution-file: "solutions/zip_files/${{ inputs.solution_name }}_v${{ needs.export-and-version.outputs.new_version }}.zip"
-        solution-type: "Unmanaged"
+        solution-type: "Managed"
 
     - name: Import to TARGET environment
       uses: microsoft/powerplatform-actions/import-solution@v1.0.0
