@@ -31,7 +31,7 @@
                     <row>
                       <cell id="{953235ea-eaa9-43aa-9c4e-fbe9889897a5}" showlabel="true" locklevel="0">
                         <labels>
-                          <label description="Status Reason" languagecode="1033" />
+                          <label description="" languagecode="1033" />
                         </labels>
                         <control id="statuscode" classid="{5D68B988-0661-4db2-BC3E-17598AD3BE6C}" datafieldname="statuscode" disabled="false" />
                       </cell>
@@ -56,7 +56,7 @@
                     <row>
                       <cell id="{cb17906d-8bd9-4e13-b354-182cb876c4d0}" showlabel="true" locklevel="0">
                         <labels>
-                          <label description="Booking Reference" languagecode="1033" />
+                          <label description="" languagecode="1033" />
                         </labels>
                         <control id="hash_bookingreference" classid="{4273EDBD-AC1D-40d3-9FB2-095C621B552D}" datafieldname="hash_bookingreference" disabled="false" />
                       </cell>
@@ -71,13 +71,13 @@
                     <row>
                       <cell id="{d797047b-5072-4ce2-b7a4-93a17c270d01}" showlabel="true" locklevel="0">
                         <labels>
-                          <label description="Owner" languagecode="1033" />
+                          <label description="" languagecode="1033" />
                         </labels>
                         <control id="ownerid" classid="{270BD3DB-D9AF-4782-9025-509E298DEC0A}" datafieldname="ownerid" disabled="false" />
                       </cell>
                       <cell id="{121bcf73-7089-4fd3-b60a-085811767671}" showlabel="true" locklevel="0">
                         <labels>
-                          <label description="Created On" languagecode="1033" />
+                          <label description="" languagecode="1033" />
                         </labels>
                         <control id="createdon" classid="{270BD3DB-D9AF-4782-9025-509E298DEC0A}" datafieldname="createdon" disabled="false" />
                       </cell>
