@@ -16,7 +16,7 @@
                     <row>
                       <cell id="{c5212b93-494c-6a7a-20ae-2c7cb83a5d20}" showlabel="true" locklevel="0" ordinalvalue="10009" solutionaction="Added">
                         <labels>
-                          <label description="Test Field" languagecode="1033" />
+                          <label description="" languagecode="1033" />
                         </labels>
                         <control id="cr463_testfield" classid="{67FAC785-CD58-4f9f-ABB3-4B7DDC6ED5ED}" datafieldname="cr463_testfield" disabled="false" />
                       </cell>
@@ -30,17 +30,6 @@
                     </row>
                     <row>
                       <cell id="{0e2daa31-4114-2108-6a4e-7256ae06b1a0}" showlabel="true" locklevel="0" ordinalvalue="10001" solutionaction="Modified" />
-                    </row>
-                  </rows>
-                </section>
-                <section name="SUMMARY_TAB_ADDRESSINPUT_SECTION" id="4901e6b4-add1-4504-8985-bebe34c7a93c" IsUserDefined="0" locklevel="0" visible="false" showlabel="true" showbar="false" layout="varwidth" celllabelalignment="Left" celllabelposition="Left" columns="1" labelwidth="115" ordinalvalue="2">
-                  <rows>
-                    <row>
-                      <cell id="{d75860a2-3d5d-4909-a310-c8a1f2a33f4b}" showlabel="false" locklevel="0" colspan="1" rowspan="1" ordinalvalue="10000">
-                        <labels>
-                          <label description="Street 1" languagecode="1033" solutionaction="Modified" />
-                        </labels>
-                      </cell>
                     </row>
                   </rows>
                 </section>
