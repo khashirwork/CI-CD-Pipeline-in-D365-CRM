@@ -18,6 +18,12 @@ name: Export and Deploy Solution with Versioning
         - major
         default: patch
 
+      export_as_managed:
+        description: "Export as managed solution?"
+        required: true
+        type: boolean
+        default: true
+
       release_notes:
         description: "What changed in this version?"
         required: true
@@ -48,7 +54,7 @@ jobs:
         tenant-id: "${{ secrets.TENANT_ID }}"
         solution-name: "${{ inputs.solution_name }}"
         solution-output-file: "solutions/${{ inputs.solution_name }}.zip"
-        managed: false
+        managed: ${{ inputs.export_as_managed }}
         overwrite: true
 
     - name: Unpack solution
@@ -162,7 +168,7 @@ jobs:
       with:
         solution-folder: "solutions/${{ inputs.solution_name }}"
         solution-file: "solutions/${{ inputs.solution_name }}_v${{ needs.export-and-version.outputs.new_version }}.zip"
-        solution-type: "Unmanaged"
+        solution-type: "${{ inputs.export_as_managed && 'Managed' || 'Unmanaged' }}"
 
     - name: Import to TARGET environment
       uses: microsoft/powerplatform-actions/import-solution@v1.0.0
