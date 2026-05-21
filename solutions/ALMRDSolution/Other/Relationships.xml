@@ -1,25 +1,16 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <EntityRelationships xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-  <EntityRelationship Name="business_unit_hash_booking" />
   <EntityRelationship Name="business_unit_hash_destination" />
   <EntityRelationship Name="business_unit_hash_flight" />
-  <EntityRelationship Name="hash_account_hash_booking_841" />
-  <EntityRelationship Name="hash_Booking_hash_Flight" />
-  <EntityRelationship Name="hash_contact_hash_booking_841" />
   <EntityRelationship Name="hash_Flight_hash_Destination" />
-  <EntityRelationship Name="lk_hash_booking_createdby" />
-  <EntityRelationship Name="lk_hash_booking_modifiedby" />
   <EntityRelationship Name="lk_hash_destination_createdby" />
   <EntityRelationship Name="lk_hash_destination_modifiedby" />
   <EntityRelationship Name="lk_hash_flight_createdby" />
   <EntityRelationship Name="lk_hash_flight_modifiedby" />
-  <EntityRelationship Name="owner_hash_booking" />
   <EntityRelationship Name="owner_hash_destination" />
   <EntityRelationship Name="owner_hash_flight" />
-  <EntityRelationship Name="team_hash_booking" />
   <EntityRelationship Name="team_hash_destination" />
   <EntityRelationship Name="team_hash_flight" />
-  <EntityRelationship Name="user_hash_booking" />
   <EntityRelationship Name="user_hash_destination" />
   <EntityRelationship Name="user_hash_flight" />
 </EntityRelationships>

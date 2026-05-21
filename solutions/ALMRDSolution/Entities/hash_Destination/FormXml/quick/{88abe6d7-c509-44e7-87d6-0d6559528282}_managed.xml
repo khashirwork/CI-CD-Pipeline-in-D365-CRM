@@ -22,7 +22,7 @@
                     <row>
                       <cell id="{da1421e6-f779-4719-92c1-4c1274d75d24}">
                         <labels>
-                          <label description="Destination Name" languagecode="1033" />
+                          <label description="" languagecode="1033" />
                         </labels>
                         <control id="hash_destinationname" classid="{4273EDBD-AC1D-40d3-9FB2-095C621B552D}" datafieldname="hash_destinationname" />
                       </cell>
@@ -30,7 +30,7 @@
                     <row>
                       <cell id="{798eeb69-ec6b-4a59-aaa4-a388daf9ec14}">
                         <labels>
-                          <label description="Owner" languagecode="1033" />
+                          <label description="" languagecode="1033" />
                         </labels>
                         <control id="ownerid" classid="{270BD3DB-D9AF-4782-9025-509E298DEC0A}" datafieldname="ownerid" />
                       </cell>
