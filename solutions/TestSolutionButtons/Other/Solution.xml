@@ -7,7 +7,7 @@
     </LocalizedNames>
     <Descriptions />
     <Version>2.0.0.0</Version>
-    <Managed>0</Managed>
+    <Managed>1</Managed>
     <Publisher>
       <UniqueName>Cr0a8a6</UniqueName>
       <LocalizedNames>
@@ -132,11 +132,6 @@
     <RootComponents>
       <RootComponent type="1" schemaName="appointment" behavior="2" />
     </RootComponents>
-    <MissingDependencies>
-      <MissingDependency>
-        <Required type="1" schemaName="appointment" displayName="Appointment" parentSchemaName="" solution="msdyn_SalesTrialApp (9.0.2.20)" />
-        <Dependent type="1" schemaName="appointment" displayName="Appointment" />
-      </MissingDependency>
-    </MissingDependencies>
+    <MissingDependencies />
   </SolutionManifest>
 </ImportExportXml>
