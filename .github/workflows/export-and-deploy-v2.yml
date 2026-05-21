@@ -452,6 +452,23 @@ jobs:
         solution-type: "${{ inputs.solution_type }}"
 
     # =========================================================
+    # RUN SOLUTION CHECKER
+    # =========================================================
+    - name: Run Solution Checker
+      uses: microsoft/powerplatform-actions/check-solution@v1.0.0
+      with:
+        environment-url: "${{ secrets.DEV_URL }}"
+        app-id: "${{ secrets.CLIENT_ID }}"
+        client-secret: "${{ secrets.CLIENT_SECRET }}"
+        tenant-id: "${{ secrets.TENANT_ID }}"
+
+        path: "solutions/zip_files/${{ inputs.solution_name }}_v${{ needs.export-and-version.outputs.new_version }}.zip"
+
+        rule-set: "0ad12346-e108-40b8-a956-9a8f95ea18c9"
+
+        fail-on-error: false
+
+    # =========================================================
     # MANAGED → UPGRADE FLOW
     # =========================================================
     - name: Apply Upgrade (Stage Holding Solution)
