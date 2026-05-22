@@ -243,7 +243,7 @@
 
 #         echo "- TARGET: Deployed Successfully" >> $env:GITHUB_STEP_SUMMARY
 
-name: Export and Deploy Solution through CI/CD Pipeline
+name: Export and Deploy Solution with Versioning
 
 "on":
   workflow_dispatch:
@@ -464,9 +464,7 @@ jobs:
 
         path: "solutions/zip_files/${{ inputs.solution_name }}_v${{ needs.export-and-version.outputs.new_version }}.zip"
 
-        rule-set: "0ad12346-e108-40b8-a956-9a8f95ea18c9"
-
-        fail-on-error: false
+        fail-on-analysis-error: false
 
     # =========================================================
     # MANAGED → UPGRADE FLOW
